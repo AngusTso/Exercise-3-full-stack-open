@@ -7,7 +7,7 @@ const app = express();
 app.use(express.static('build'))
 app.use(cors())
 app.use(express.json());
-const Person = require(`./..model/Person.js`);
+const Person = require(`./model/Person.js`);
 const { default: mongoose } = require('mongoose');
 
 const url = process.env.MONGO_URL
