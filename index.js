@@ -1,4 +1,5 @@
 //Package declaration
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors')
@@ -6,8 +7,10 @@ const app = express();
 app.use(express.static('build'))
 app.use(cors())
 app.use(express.json());
+const Person = require(`./..model/Person.js`);
+const { default: mongoose } = require('mongoose');
 
-
+const url = process.env.MONGO_URL
 
 let persons = [
     { 
@@ -39,7 +42,12 @@ morgan.token('content',(request) => {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :content'))
 //Get request Section
 app.get(`/api/persons` , (request, response) => {
-    response.json(persons);
+    mongoose
+        .connect(url)
+        .then(Person.find({}).then((person)=>{
+            response.json(person);
+            mongoose.connection.close();
+        }))
 })
 
 app.get(`/info` , (request, response) => {
