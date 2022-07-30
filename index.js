@@ -42,6 +42,7 @@ morgan.token('content',(request) => {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :content'))
 //Get request Section
 app.get(`/api/persons` , (request, response) => {
+    console.log(url)
     mongoose
         .connect(url)
         .then(Person.find({}).then((person)=>{
