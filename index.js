@@ -7,10 +7,10 @@ const app = express();
 app.use(express.static('build'))
 app.use(cors())
 app.use(express.json());
-const Person = require(`./model/Person.js`);
-const { default: mongoose } = require('mongoose');
+const Person = require(`./model/Person`);
+const mongoose = require('mongoose');
 
-const url = process.env.MONGO_URL
+
 
 let persons = [
     { 
@@ -42,13 +42,9 @@ morgan.token('content',(request) => {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :content'))
 //Get request Section
 app.get(`/api/persons` , (request, response) => {
-    console.log(url)
-    mongoose
-        .connect(url)
-        .then(Person.find({}).then((person)=>{
-            response.json(person);
-            mongoose.connection.close();
-        }))
+    Person.find({}).then((person)=>{
+        response.json(person)
+    })    
 })
 
 app.get(`/info` , (request, response) => {
