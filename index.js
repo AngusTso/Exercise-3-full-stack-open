@@ -24,22 +24,21 @@ const errorHandler = (error, request, response, next) => {
 app.use(errorHandler)
 //Get all record
 //updated with MongoDB
-app.get('/api/persons' , (request, response , next) => {
+app.get('/api/persons' , (request, response) => {
     Person.find({}).then((person) => {
         response.json(person)
-    }).catch(error => next(error))
-})
+    })})
 
-app.get('/info' , (request, response , next) => {
+app.get('/info' , (request, response) => {
     const now = new Date()
     Person.countDocuments({},(err , c) => {
         response.send(`<p>Phonebook has info of ${c} people.</p> <p>${now}</p>`)
-    }).catch(err => next(err))
+    })
 })
 
 //For Get single record
 //updated with MongoDB
-app.get('/api/persons/:id' , (request, response , next) => {
+app.get('/api/persons/:id' , (request, response) => {
     Person.findById(request.params.id).then((person) => {
         if(person){
             response.json(person)
@@ -47,7 +46,7 @@ app.get('/api/persons/:id' , (request, response , next) => {
         else{
             response.status(404).end()
         }
-    }).catch(error => next(error))
+    })
 })
 
 //Put request for modifying existing record
