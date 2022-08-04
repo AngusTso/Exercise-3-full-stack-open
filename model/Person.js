@@ -5,25 +5,28 @@ require('dotenv').config()
 const url = process.env.MONGODB_URI
 
 const personSchema = new mongoose.Schema({
-    name: String,
-    number: String,
+    name: {
+        type:String,
+        minLength: 3,
+        required:true
+    },
+    number:{
+        type:String,
+        required:true,
+        validate:{
+            validator: (v) => /^\d{2,3}-[0-9][^-]+$/.test(v)
+        }
+    }
 })
 
 console.log('connecting to', url)
 
-mongoose
-        .connect(url)
-        .then(result => {
-            console.log('connected to MongoDB')
-        })
-        .catch((error) => {
-            console.log('error connecting to MongoDB:', error.message)
-        })
+mongoose.connect(url).then(() => {console.log('connected to MongoDB')}).catch((error) => {console.log('error connecting to MongoDB:', error.message)})
 personSchema.set('toJSON', {
     transform: (document, returnedObject) => {
-      returnedObject.id = returnedObject._id.toString()
-      delete returnedObject._id
-      delete returnedObject.__v
+        returnedObject.id = returnedObject._id.toString()
+        delete returnedObject._id
+        delete returnedObject.__v
     }
 })
 

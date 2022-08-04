@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "lint": "eslint .",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf build && cd ../../Full-stack-open-2022/part2/phonebook && npm run build && cp -r build ../../../Full-stack-open-2022-part3-exercise/phonebook_backend",
@@ -27,6 +28,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^8.21.0",
     "nodemon": "^2.0.19"
   }
 }
